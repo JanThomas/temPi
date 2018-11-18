@@ -41,7 +41,9 @@ exports.app.connection.then(function (connection) {
 });
 var ports = ProbePort_1.ProbePort.checkPorts("/sys/devices/");
 var _loop_1 = function (port) {
-    port.temperatur().then(function (temp) {
+    port.temperatur().catch(function () {
+        console.info('Port', port.port, '-');
+    }).then(function (temp) {
         console.info('Port', port.port, temp + '°C');
     });
 };

@@ -48,7 +48,9 @@ app.connection.then((connection) => {
 const ports = ProbePort.checkPorts("/sys/devices/");
 
 for (const port of ports) {
-    port.temperatur().then((temp) => {
+    port.temperatur().catch(()=>{
+        console.info('Port', port.port, '-')
+    }).then((temp) => {
         console.info('Port', port.port, temp + '°C');
     });
 }
