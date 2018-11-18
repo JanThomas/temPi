@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
+var fs = require("fs");
 var webserver_1 = require("./webserver");
 var typeorm_1 = require("typeorm");
 // import {Block} from "./models/block";
@@ -38,4 +39,9 @@ exports.app.connection.then(function (connection) {
 }).catch(function (error) {
     console.log(error);
 });
+if (fs.existsSync("/sys/bus/w1/devices")) {
+    fs.readdirSync("/sys/bus/w1/devices").forEach(function (file) {
+        console.info(file);
+    });
+}
 //# sourceMappingURL=app.js.map

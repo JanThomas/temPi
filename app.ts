@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import * as fs from "fs";
+import * as path from "path";
 import {bootstrapServer} from "./webserver";
 import {createConnection} from "typeorm";
 // import {Block} from "./models/block";
@@ -41,3 +43,9 @@ app.connection.then((connection) => {
 }).catch((error) => {
     console.log(error)
 });
+
+if (fs.existsSync("/sys/bus/w1/devices")) {
+    fs.readdirSync("/sys/bus/w1/devices").forEach(file => {
+        console.info(file);
+    });
+}
