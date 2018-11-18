@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 function normDir(source) {
-    return source.substr(-1, 1) == "/" ? source : source + "/";
+    return source.toString().substr(-1, 1) == "/" ? source : source + "/";
 }
 exports.normDir = normDir;
 function isDir(source) {

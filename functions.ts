@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 export function normDir(source: string) {
-    return source.substr(-1, 1) == "/" ? source : source + "/";
+    return source.toString().substr(-1, 1) == "/" ? source : source + "/";
 }
 
 export function isDir(source: string) {
