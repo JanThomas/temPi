@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-var fs = require("fs");
 var webserver_1 = require("./webserver");
 var typeorm_1 = require("typeorm");
 // import {Block} from "./models/block";
@@ -9,6 +8,7 @@ var typeorm_1 = require("typeorm");
 // import {Player} from "./models/player";
 // import {Transaction} from "./models/transaction";
 var configJSON = require("./config.json");
+var ProbePort_1 = require("./models/ProbePort");
 var config = configJSON;
 exports.app = {
     server: null,
@@ -39,9 +39,36 @@ exports.app.connection.then(function (connection) {
 }).catch(function (error) {
     console.log(error);
 });
-if (fs.existsSync("/sys/bus/w1/devices")) {
-    fs.readdirSync("/sys/bus/w1/devices").forEach(function (file) {
-        console.info(file);
+var ports = ProbePort_1.ProbePort.checkPorts("/sys/devices/");
+var _loop_1 = function (port) {
+    port.temperatur().then(function (temp) {
+        console.info('Port', port.port, temp + '°C');
     });
+};
+for (var _i = 0, ports_1 = ports; _i < ports_1.length; _i++) {
+    var port = ports_1[_i];
+    _loop_1(port);
 }
+//
+// if (fs.existsSync(basePath)) {
+//     fs.readdirSync(basePath).forEach(bus => {
+//         if (bus.search(/^w1_bus_master[0-9][0-9]*$/gi) > -1) {
+//             if (fs.lstatSync(basePath + bus).isDirectory()) {
+//                 console.info("Wire-Bus: " + bus);
+//                 fs.readdirSync(basePath + bus).forEach(probe => {
+//                     if (probe.search(/^28-/gi) > -1) {
+//                         const probePath = basePath + bus + "/" + probe + "/"
+//                         if (fs.lstatSync(probePath).isDirectory() && fs.existsSync(probePath + "w1_slave")) {
+//                             console.info(" - probe " + probe);
+//                             fs.readFile(probePath + "w1_slave", (err, data) => {
+//                                 if (err) throw err;
+//                                 console.info(bus, probe, data + "");
+//                             });
+//                         }
+//                     }
+//                 });
+//             }
+//         }
+//     });
+// }
 //# sourceMappingURL=app.js.map

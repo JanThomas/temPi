@@ -10,6 +10,7 @@ import {createConnection} from "typeorm";
 
 
 import * as configJSON from './config.json';
+import {ProbePort} from "./models/ProbePort";
 
 const config: any = configJSON;
 
@@ -44,8 +45,34 @@ app.connection.then((connection) => {
     console.log(error)
 });
 
-if (fs.existsSync("/sys/bus/w1/devices")) {
-    fs.readdirSync("/sys/bus/w1/devices").forEach(file => {
-        console.info(file);
+const ports = ProbePort.checkPorts("/sys/devices/");
+
+for (const port of ports) {
+    port.temperatur().then((temp) => {
+        console.info('Port', port.port, temp + '°C');
     });
 }
+
+
+//
+// if (fs.existsSync(basePath)) {
+//     fs.readdirSync(basePath).forEach(bus => {
+//         if (bus.search(/^w1_bus_master[0-9][0-9]*$/gi) > -1) {
+//             if (fs.lstatSync(basePath + bus).isDirectory()) {
+//                 console.info("Wire-Bus: " + bus);
+//                 fs.readdirSync(basePath + bus).forEach(probe => {
+//                     if (probe.search(/^28-/gi) > -1) {
+//                         const probePath = basePath + bus + "/" + probe + "/"
+//                         if (fs.lstatSync(probePath).isDirectory() && fs.existsSync(probePath + "w1_slave")) {
+//                             console.info(" - probe " + probe);
+//                             fs.readFile(probePath + "w1_slave", (err, data) => {
+//                                 if (err) throw err;
+//                                 console.info(bus, probe, data + "");
+//                             });
+//                         }
+//                     }
+//                 });
+//             }
+//         }
+//     });
+// }
