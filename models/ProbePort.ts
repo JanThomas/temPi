@@ -30,12 +30,12 @@ export class ProbePort {
                         }
                     }
                     if (count > 0) {
-                        resolve(Math.round((temp / count) * 100) / 100);
+                        return resolve(Math.round((temp / count) * 100) / 100);
                     } else {
-                        reject();
+                        return reject();
                     }
                 } else {
-                    reject();
+                    return reject();
                 }
             })
         });
