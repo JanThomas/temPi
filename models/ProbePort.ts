@@ -77,7 +77,7 @@ export class ProbePort {
             throw new Error('path has to be absolute');
         }
 
-        path = normDir(normDir);
+        path = normDir(path);
 
         if (!isDir(path)) {
             throw new Error("path must be a valid directory");

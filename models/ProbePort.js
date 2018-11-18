@@ -67,7 +67,7 @@ var ProbePort = /** @class */ (function () {
         if (path.substr(0, 1) != "/") {
             throw new Error('path has to be absolute');
         }
-        path = functions_1.normDir(functions_1.normDir);
+        path = functions_1.normDir(path);
         if (!functions_1.isDir(path)) {
             throw new Error("path must be a valid directory");
         }
